@@ -388,40 +388,6 @@ function initContactForm() {
     }
   });
 }
-   
-
-    if (!isValid) return;
-
-    // Simulate a successful submission (no backend wired up).
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const btnText = submitBtn.querySelector('.btn__text');
-    const originalText = btnText.textContent;
-
-    submitBtn.disabled = true;
-    btnText.textContent = 'Sending...';
-
-    setTimeout(() => {
-      btnText.textContent = originalText;
-      submitBtn.disabled = false;
-      form.reset();
-      if (successMsg) {
-        successMsg.classList.add('is-visible');
-        setTimeout(() => successMsg.classList.remove('is-visible'), 5000);
-      }
-    }, 900);
-  });
-
-  // Clear an individual field's error state as the user types
-  Object.keys(validators).forEach((field) => {
-    const input = form.elements[field];
-    if (!input) return;
-    input.addEventListener('input', () => {
-      input.classList.remove('has-error');
-      const errorEl = form.querySelector(`[data-error-for="${field}"]`);
-      if (errorEl) errorEl.textContent = '';
-    });
-  });
-}
 
 /* --------------------------------------------------------------------------
    13. Footer year
