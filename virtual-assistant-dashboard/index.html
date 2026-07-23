@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA Dashboard — Jennelyn Portea</title>
+<meta name="description" content="Daily task and priorities dashboard for managing founder operations, client follow-ups, and schedules.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <span class="sidebar__mark">JP</span>
+      <div class="sidebar__brand-text">
+        <strong>VA Dashboard</strong>
+        <span>Jennelyn Portea</span>
+      </div>
+    </div>
+
+    <nav class="sidebar__nav" aria-label="Dashboard sections">
+      <button class="nav-item active" data-view="overview">
+        <i class="fa-solid fa-chart-simple"></i> Overview
+      </button>
+      <button class="nav-item" data-view="tasks">
+        <i class="fa-solid fa-list-check"></i> Tasks
+      </button>
+      <button class="nav-item" data-view="schedule">
+        <i class="fa-solid fa-calendar-day"></i> Daily Schedule
+      </button>
+      <button class="nav-item" data-view="clients">
+        <i class="fa-solid fa-user-tie"></i> Client Follow-ups
+      </button>
+      <button class="nav-item" data-view="checklist">
+        <i class="fa-solid fa-clipboard-check"></i> Founder Checklist
+      </button>
+    </nav>
+
+    <div class="sidebar__footer">
+      <div class="sidebar__profile">
+        <span class="sidebar__avatar">JP</span>
+        <div>
+          <strong>Jennelyn</strong>
+          <span>Virtual Assistant</span>
+        </div>
+      </div>
+      <p class="sidebar__tag"><i class="fa-solid fa-crown"></i> Operations, handled with care</p>
+    </div>
+  </aside>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ===== Main ===== -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="topbar__burger" id="burger" aria-label="Open menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="topbar__greeting">
+        <h1 id="greetingText">Good day, Jennelyn</h1>
+        <p id="todayDate"></p>
+      </div>
+
+      <div class="topbar__actions">
+        <button class="btn btn--primary" id="quickAddBtn">
+          <i class="fa-solid fa-plus"></i> Add Task
+        </button>
+      </div>
+    </header>
+
+    <div class="view-container">
+
+      <!-- ================= OVERVIEW ================= -->
+      <section class="view active" id="view-overview">
+
+        <div class="stat-grid">
+          <div class="stat-card stat-card--rose">
+            <div class="stat-card__icon"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="stat-card__body">
+              <span>Total Tasks</span>
+              <strong id="statTotal">0</strong>
+            </div>
+          </div>
+          <div class="stat-card stat-card--gold">
+            <div class="stat-card__icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-card__body">
+              <span>Completed Tasks</span>
+              <strong id="statCompleted">0</strong>
+            </div>
+          </div>
+          <div class="stat-card stat-card--plum">
+            <div class="stat-card__icon"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div class="stat-card__body">
+              <span>Pending Tasks</span>
+              <strong id="statPending">0</strong>
+            </div>
+          </div>
+          <div class="stat-card stat-card--outline">
+            <div class="stat-card__icon"><i class="fa-solid fa-chart-pie"></i></div>
+            <div class="stat-card__body">
+              <span>Completion Rate</span>
+              <strong id="statRate">0%</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="overview-grid">
+          <div class="panel">
+            <div class="panel__head">
+              <h2><i class="fa-solid fa-star"></i> Priority Tasks Today</h2>
+              <button class="link-btn" data-goto="tasks">View all</button>
+            </div>
+            <ul class="mini-list" id="overviewTasks">
+              <li class="empty-state">No tasks yet — add your first one.</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <h2><i class="fa-solid fa-clock"></i> Today's Schedule</h2>
+              <button class="link-btn" data-goto="schedule">View all</button>
+            </div>
+            <ul class="mini-list" id="overviewSchedule">
+              <li class="empty-state">No schedule items yet.</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <h2><i class="fa-solid fa-user-clock"></i> Upcoming Follow-ups</h2>
+              <button class="link-btn" data-goto="clients">View all</button>
+            </div>
+            <ul class="mini-list" id="overviewClients">
+              <li class="empty-state">No clients tracked yet.</li>
+            </ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <h2><i class="fa-solid fa-clipboard-list"></i> Founder Checklist Progress</h2>
+              <button class="link-btn" data-goto="checklist">View all</button>
+            </div>
+            <div class="checklist-progress">
+              <div class="checklist-progress__track">
+                <div class="checklist-progress__fill" id="checklistFill"></div>
+              </div>
+              <span id="checklistProgressLabel">0 of 0 complete</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TASKS ================= -->
+      <section class="view" id="view-tasks">
+        <div class="panel">
+          <div class="panel__head">
+            <h2><i class="fa-solid fa-list-check"></i> Task Manager</h2>
+          </div>
+
+          <form class="inline-form" id="taskForm">
+            <input type="text" id="taskTitle" placeholder="Task name — e.g. Confirm Thursday's demo call" required>
+            <select id="taskPriority" aria-label="Priority">
+              <option value="High">High Priority</option>
+              <option value="Medium" selected>Medium Priority</option>
+              <option value="Low">Low Priority</option>
+            </select>
+            <input type="date" id="taskDue" aria-label="Due date">
+            <button type="submit" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Add Task</button>
+          </form>
+
+          <div class="filter-row" id="taskFilters">
+            <button class="filter-chip active" data-filter="all">All</button>
+            <button class="filter-chip" data-filter="High">High</button>
+            <button class="filter-chip" data-filter="Medium">Medium</button>
+            <button class="filter-chip" data-filter="Low">Low</button>
+            <button class="filter-chip" data-filter="completed">Completed</button>
+          </div>
+
+          <ul class="task-list" id="taskList">
+            <!-- Tasks injected by JS -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- ================= SCHEDULE ================= -->
+      <section class="view" id="view-schedule">
+        <div class="panel">
+          <div class="panel__head">
+            <h2><i class="fa-solid fa-calendar-day"></i> Daily Schedule</h2>
+          </div>
+
+          <form class="inline-form" id="scheduleForm">
+            <input type="time" id="scheduleTime" required aria-label="Time">
+            <input type="text" id="scheduleActivity" placeholder="Activity — e.g. Client onboarding call" required>
+            <button type="submit" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Add to Schedule</button>
+          </form>
+
+          <ul class="schedule-list" id="scheduleList">
+            <!-- Schedule items injected by JS -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- ================= CLIENTS ================= -->
+      <section class="view" id="view-clients">
+        <div class="panel">
+          <div class="panel__head">
+            <h2><i class="fa-solid fa-user-tie"></i> Client Follow-up Tracker</h2>
+          </div>
+
+          <form class="inline-form inline-form--wrap" id="clientForm">
+            <input type="text" id="clientName" placeholder="Client name" required>
+            <input type="date" id="clientLastContact" aria-label="Last contact date" required>
+            <input type="date" id="clientNextFollowup" aria-label="Next follow-up date" required>
+            <select id="clientStatus" aria-label="Status">
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <button type="submit" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Add Client</button>
+          </form>
+
+          <div class="table-wrap">
+            <table class="client-table">
+              <thead>
+                <tr>
+                  <th>Client</th>
+                  <th>Last Contact</th>
+                  <th>Next Follow-up</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="clientTableBody">
+                <!-- Client rows injected by JS -->
+              </tbody>
+            </table>
+            <p class="empty-state" id="clientEmptyState">No clients tracked yet — add one above.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CHECKLIST ================= -->
+      <section class="view" id="view-checklist">
+        <div class="panel">
+          <div class="panel__head">
+            <h2><i class="fa-solid fa-clipboard-check"></i> Founder Operations Checklist</h2>
+          </div>
+
+          <form class="inline-form" id="checklistForm">
+            <input type="text" id="checklistItemInput" placeholder="Add a recurring operations item" required>
+            <button type="submit" class="btn btn--primary"><i class="fa-solid fa-plus"></i> Add Item</button>
+          </form>
+
+          <ul class="checklist-list" id="checklistList">
+            <!-- Checklist items injected by JS -->
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
