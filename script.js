@@ -366,35 +366,29 @@ function initBackToTop() {
    12. Contact form — client-side validation + simulated submit
    -------------------------------------------------------------------------- */
 function initContactForm() {
-  const form = document.getElementById('contactForm');
+  const form = document.getElementById("contactForm");
   if (!form) return;
 
-  const successMsg = document.getElementById('formSuccess');
-
-  const validators = {
-    name: (v) => v.trim().length >= 2 || 'Please enter your name.',
-    email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || 'Please enter a valid email.',
-    message: (v) => v.trim().length >= 10 || 'Message should be at least 10 characters.',
-  };
-
-  form.addEventListener('submit', (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    let isValid = true;
 
-    Object.keys(validators).forEach((field) => {
-      const input = form.elements[field];
-      const errorEl = form.querySelector(`[data-error-for="${field}"]`);
-      const result = validators[field](input.value);
-
-      if (result !== true) {
-        isValid = false;
-        input.classList.add('has-error');
-        if (errorEl) errorEl.textContent = result;
-      } else {
-        input.classList.remove('has-error');
-        if (errorEl) errorEl.textContent = '';
-      }
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: {
+        Accept: "application/json",
+      },
     });
+
+    if (response.ok) {
+      alert("🌸 Thank you! Your message has been sent!");
+      form.reset();
+    } else {
+      alert("Something went wrong. Please try again.");
+    }
+  });
+}
+   
 
     if (!isValid) return;
 
