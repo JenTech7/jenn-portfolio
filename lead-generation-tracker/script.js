@@ -106,8 +106,8 @@ const closeModalBtn      = document.getElementById("closeModal");
 const cancelModalBtn     = document.getElementById("cancelModal");
 
 const deleteOverlay      = document.getElementById("deleteOverlay");
-const cancelDeleteBtn    = document.getElementById("cancelDelete");
-const confirmDeleteBtn   = document.getElementById("confirmDelete");
+const cancelDeleteBtn    = document.getElementById("cancelDeleteBtn");
+const confirmDeleteBtn   = document.getElementById("confirmDeleteBtn");
 
 const toastEl            = document.getElementById("toast");
 
