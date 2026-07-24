@@ -615,7 +615,10 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.02em; }
 /* ==========================================================================
    Portfolio
    ========================================================================== */
-.grid--portfolio { grid-template-columns: repeat(4, 1fr); }
+.grid--portfolio {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
 .project-card {
   border-radius: var(--radius-md);
   overflow: hidden;
