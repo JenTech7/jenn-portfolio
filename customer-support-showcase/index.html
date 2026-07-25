@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Support Showcase — Agent Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="topbar">
+  <div class="topbar-left">
+    <span class="brand-mark">◆</span>
+    <div>
+      <h1>Customer Support Showcase</h1>
+      <p>Manage customer conversations, resolve tickets, and monitor support performance.</p>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="topbar-stat">
+      <span class="topbar-stat-label">Today</span>
+      <span class="topbar-stat-value" id="currentDate">—</span>
+    </div>
+    <div class="agent-chip">
+      <div class="agent-avatar">J</div>
+      <div class="agent-info">
+        <strong>Jennelyn</strong>
+        <span class="online-indicator"><i></i> Online</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ STAT CARDS ============ -->
+  <section class="stat-grid" aria-label="Ticket summary">
+    <div class="stat-card">
+      <div class="stat-ico ico-total">☰</div>
+      <div class="stat-body">
+        <span class="stat-label">Total Tickets</span>
+        <span class="stat-value" id="statTotal" data-target="0">0</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico ico-open">◐</div>
+      <div class="stat-body">
+        <span class="stat-label">Open Tickets</span>
+        <span class="stat-value" id="statOpen" data-target="0">0</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico ico-pending">◷</div>
+      <div class="stat-body">
+        <span class="stat-label">Pending</span>
+        <span class="stat-value" id="statPending" data-target="0">0</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-ico ico-resolved">✓</div>
+      <div class="stat-body">
+        <span class="stat-label">Resolved</span>
+        <span class="stat-value" id="statResolved" data-target="0">0</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="layout-grid">
+
+    <!-- ============ TICKETS PANEL ============ -->
+    <section class="panel tickets-panel">
+      <div class="panel-head">
+        <h2>Support Tickets</h2>
+        <span class="panel-caption">Click any row to open the full conversation</span>
+      </div>
+
+      <div class="panel-tools">
+        <div class="search-box">
+          <span>⌕</span>
+          <input type="text" id="searchInput" placeholder="Search by customer, email, or ticket ID...">
+        </div>
+        <select id="filterStatus" class="select-input">
+          <option value="">All Statuses</option>
+          <option value="Open">Open</option>
+          <option value="Pending">Pending</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+        <select id="filterPriority" class="select-input">
+          <option value="">All Priorities</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+
+      <div class="chip-filters" id="chipFilters">
+        <button class="chip active" data-status="">All</button>
+        <button class="chip" data-status="Open">Open</button>
+        <button class="chip" data-status="Pending">Pending</button>
+        <button class="chip" data-status="Resolved">Resolved</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="ticket-table" id="ticketTable">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Issue</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Assigned To</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="ticketTableBody"></tbody>
+        </table>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <div class="empty-icon">◈</div>
+          <h3>No tickets found</h3>
+          <p>Try a different search term or clear your filters.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SIDE COLUMN ============ -->
+    <aside class="side-col">
+
+      <!-- Satisfaction ring — signature element -->
+      <section class="panel satisfaction-card">
+        <div class="panel-head">
+          <h2>Customer Satisfaction</h2>
+        </div>
+
+        <div class="rating-row">
+          <div class="stars" aria-label="4.9 out of 5 stars">★★★★★</div>
+          <div class="rating-num">4.9<span>/5</span></div>
+        </div>
+
+        <div class="ring-wrap">
+          <svg viewBox="0 0 140 140" class="ring-svg">
+            <circle cx="70" cy="70" r="58" class="ring-track"></circle>
+            <circle cx="70" cy="70" r="58" class="ring-progress" id="ringProgress"></circle>
+          </svg>
+          <div class="ring-center">
+            <span class="ring-value">96%</span>
+            <span class="ring-label">CSAT</span>
+          </div>
+        </div>
+
+        <div class="metric-list">
+          <div class="metric-row">
+            <span>First Response Time</span>
+            <strong>12 min</strong>
+          </div>
+          <div class="metric-row">
+            <span>Resolution Rate</span>
+            <strong>98%</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent activity -->
+      <section class="panel activity-card">
+        <div class="panel-head">
+          <h2>Recent Activity</h2>
+        </div>
+        <ul class="activity-list" id="activityList"></ul>
+      </section>
+
+    </aside>
+  </div>
+
+  <footer class="page-footer">
+    <p>Designed and developed by Jennelyn Portea</p>
+  </footer>
+</main>
+
+<!-- ============ TICKET DETAIL MODAL ============ -->
+<div class="modal-overlay" id="ticketModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ticketModalTitle">
+    <div class="modal-head">
+      <div>
+        <h2 id="ticketModalTitle">Ticket Details</h2>
+        <span class="modal-subid" id="modalTicketId"></span>
+      </div>
+      <button class="modal-close" id="closeTicketModal" aria-label="Close">×</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="profile-grid">
+        <div class="profile-item"><span>Customer Name</span><strong id="dCustomer"></strong></div>
+        <div class="profile-item"><span>Email</span><strong id="dEmail"></strong></div>
+        <div class="profile-item"><span>Priority</span><strong id="dPriority"></strong></div>
+        <div class="profile-item"><span>Date Created</span><strong id="dDate"></strong></div>
+      </div>
+
+      <div class="detail-section">
+        <h4>Issue Description</h4>
+        <p id="dIssue" class="detail-text"></p>
+      </div>
+
+      <div class="detail-section">
+        <h4>Conversation History</h4>
+        <div class="convo-thread" id="dConvo"></div>
+      </div>
+
+      <div class="detail-section">
+        <h4>Resolution Notes</h4>
+        <p id="dResolution" class="detail-text"></p>
+      </div>
+
+      <div class="detail-section detail-grid-2">
+        <div class="form-field">
+          <label for="dAssign">Assign Agent</label>
+          <select id="dAssign">
+            <option>Jennelyn</option>
+            <option>Support Team</option>
+            <option>Billing</option>
+            <option>Technical Support</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="dStatus">Ticket Status</label>
+          <select id="dStatus">
+            <option>Open</option>
+            <option>Pending</option>
+            <option>Resolved</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="status-stepper" id="statusStepper">
+        <div class="step" data-step="Open"><span class="step-dot"></span> Open</div>
+        <div class="step-line"></div>
+        <div class="step" data-step="Pending"><span class="step-dot"></span> Pending</div>
+        <div class="step-line"></div>
+        <div class="step" data-step="Resolved"><span class="step-dot"></span> Resolved</div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="closeTicketModalBtn">Close</button>
+        <button type="button" class="btn btn-primary" id="saveTicketBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
