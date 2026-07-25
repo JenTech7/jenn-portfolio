@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead Generation Tracker — Prospect &amp; Pipeline Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">◆</span>
+    <div class="brand-text">
+      <strong>Lead Generation</strong>
+      <span>Tracker</span>
+    </div>
+  </div>
+
+  <nav class="side-nav">
+    <a href="#dashboard" class="side-link active" data-nav="dashboard">
+      <span class="side-ico">▣</span> Dashboard
+    </a>
+    <a href="#pipeline" class="side-link" data-nav="pipeline">
+      <span class="side-ico">◈</span> Pipeline
+    </a>
+    <a href="#followups" class="side-link" data-nav="followups">
+      <span class="side-ico">◷</span> Follow-ups
+    </a>
+    <a href="#about" class="side-link" data-nav="about">
+      <span class="side-ico">✦</span> Why This Works
+    </a>
+  </nav>
+
+  <div class="side-footer">
+    <p>Built &amp; maintained by your Virtual Assistant</p>
+    <span class="side-footer-dot"></span> Live demo data
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<div class="main">
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-heading">
+      <h1>Lead Generation Tracker</h1>
+      <p>Manage prospects, track conversations, and keep your sales pipeline organized.</p>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-ghost" id="exportBtn">
+        <span>⇩</span> Export Leads CSV
+      </button>
+      <button class="btn btn-primary" id="addLeadBtn">
+        <span>+</span> Add New Lead
+      </button>
+    </div>
+  </header>
+
+  <!-- KPI Cards -->
+  <section class="kpi-grid" aria-label="Pipeline summary">
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Total Leads</span>
+        <span class="kpi-ico ico-total">◆</span>
+      </div>
+      <div class="kpi-value" id="kpiTotal">0</div>
+      <div class="kpi-sub">In active pipeline</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">New Leads</span>
+        <span class="kpi-ico ico-new">✦</span>
+      </div>
+      <div class="kpi-value" id="kpiNew">0</div>
+      <div class="kpi-sub">Awaiting first contact</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Qualified Leads</span>
+        <span class="kpi-ico ico-qualified">◈</span>
+      </div>
+      <div class="kpi-value" id="kpiQualified">0</div>
+      <div class="kpi-sub">Ready for proposal</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Follow-ups Due</span>
+        <span class="kpi-ico ico-followup">◷</span>
+      </div>
+      <div class="kpi-value" id="kpiFollowups">0</div>
+      <div class="kpi-sub">Next 7 days</div>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-top">
+        <span class="kpi-label">Converted Clients</span>
+        <span class="kpi-ico ico-converted">✓</span>
+      </div>
+      <div class="kpi-value" id="kpiConverted">0</div>
+      <div class="kpi-sub">Closed &amp; won</div>
+    </div>
+  </section>
+
+  <!-- Pipeline Pulse — signature element: segmented stage bar -->
+  <section class="pulse-card" aria-label="Pipeline health">
+    <div class="pulse-head">
+      <h2>Pipeline Pulse</h2>
+      <span class="pulse-caption">Distribution of every lead currently in the pipeline, by stage</span>
+    </div>
+    <div class="pulse-bar" id="pulseBar"></div>
+    <div class="pulse-legend" id="pulseLegend"></div>
+  </section>
+
+  <!-- Lead Management -->
+  <section class="panel" id="pipeline">
+    <div class="panel-head">
+      <h2>Lead Pipeline</h2>
+      <div class="panel-tools">
+        <div class="search-box">
+          <span>⌕</span>
+          <input type="text" id="searchInput" placeholder="Search by name, company, or email...">
+        </div>
+        <select id="filterStatus" class="select-input">
+          <option value="">All Statuses</option>
+          <option value="New Lead">New Lead</option>
+          <option value="Contacted">Contacted</option>
+          <option value="Qualified">Qualified</option>
+          <option value="Proposal Sent">Proposal Sent</option>
+          <option value="Negotiation">Negotiation</option>
+          <option value="Converted">Converted</option>
+          <option value="Lost">Lost</option>
+        </select>
+        <select id="filterPriority" class="select-input">
+          <option value="">All Priorities</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+        <select id="filterSource" class="select-input">
+          <option value="">All Sources</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="lead-table" id="leadTable">
+        <thead>
+          <tr>
+            <th data-sort="name">Lead Name</th>
+            <th data-sort="company">Company</th>
+            <th data-sort="industry">Industry</th>
+            <th>Contact</th>
+            <th data-sort="source">Source</th>
+            <th data-sort="status">Status</th>
+            <th data-sort="priority">Priority</th>
+            <th data-sort="score">Score</th>
+            <th data-sort="lastContact">Last Contact</th>
+            <th data-sort="nextFollowup">Next Follow-up</th>
+            <th class="actions-col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="leadTableBody">
+          <!-- rendered by script.js -->
+        </tbody>
+      </table>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <div class="empty-icon">◈</div>
+        <h3>No prospects found.</h3>
+        <p>Start building your pipeline by adding your first lead.</p>
+        <button class="btn btn-primary" id="emptyAddBtn">+ Add Lead</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Follow-ups -->
+  <section class="panel" id="followups">
+    <div class="panel-head">
+      <h2>Upcoming Follow-ups</h2>
+      <span class="panel-caption">Every scheduled touchpoint, soonest first</span>
+    </div>
+    <div class="followup-list" id="followupList"></div>
+  </section>
+
+  <!-- VA value section -->
+  <section class="about-card" id="about">
+    <div class="about-copy">
+      <span class="about-eyebrow">Why clients keep this dashboard running</span>
+      <h2>A pipeline your client can trust, without lifting a finger.</h2>
+      <p>This tracker is the kind of system a Virtual Assistant sets up in week one and clients rely on for the life of the engagement — every prospect logged, every follow-up remembered, nothing slipping through email threads.</p>
+    </div>
+    <ul class="about-list">
+      <li><span>✓</span> Organized prospect database</li>
+      <li><span>✓</span> Faster follow-up management</li>
+      <li><span>✓</span> Improved lead qualification</li>
+      <li><span>✓</span> Better sales pipeline visibility</li>
+      <li><span>✓</span> Reduced missed opportunities</li>
+    </ul>
+  </section>
+
+  <footer class="page-footer">
+    <p>Lead Generation Tracker — a portfolio project demonstrating Virtual Assistant CRM &amp; pipeline management skills.</p>
+  </footer>
+</div>
+
+<!-- ============ ADD / EDIT LEAD MODAL ============ -->
+<div class="modal-overlay" id="leadModalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle">
+    <div class="modal-head">
+      <h2 id="leadModalTitle">Add New Lead</h2>
+      <button class="modal-close" id="closeLeadModal" aria-label="Close">×</button>
+    </div>
+    <form id="leadForm" class="lead-form">
+      <input type="hidden" id="leadId">
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="fName">Full Name *</label>
+          <input type="text" id="fName" required placeholder="e.g. Jordan Alvarez">
+          <span class="field-error" id="err-fName"></span>
+        </div>
+        <div class="form-field">
+          <label for="fCompany">Company Name *</label>
+          <input type="text" id="fCompany" required placeholder="e.g. Alvarez Consulting">
+          <span class="field-error" id="err-fCompany"></span>
+        </div>
+        <div class="form-field">
+          <label for="fIndustry">Industry</label>
+          <input type="text" id="fIndustry" placeholder="e.g. Real Estate">
+        </div>
+        <div class="form-field">
+          <label for="fEmail">Email *</label>
+          <input type="email" id="fEmail" required placeholder="name@company.com">
+          <span class="field-error" id="err-fEmail"></span>
+        </div>
+        <div class="form-field">
+          <label for="fPhone">Phone Number</label>
+          <input type="text" id="fPhone" placeholder="+1 555 000 0000">
+        </div>
+        <div class="form-field">
+          <label for="fSource">Lead Source</label>
+          <select id="fSource">
+            <option>LinkedIn</option>
+            <option>Referral</option>
+            <option>Cold Email</option>
+            <option>Website Form</option>
+            <option>Instagram</option>
+            <option>Facebook Ads</option>
+            <option>Networking Event</option>
+            <option>Upwork</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="fStatus">Lead Status</label>
+          <select id="fStatus">
+            <option>New Lead</option>
+            <option>Contacted</option>
+            <option>Qualified</option>
+            <option>Proposal Sent</option>
+            <option>Negotiation</option>
+            <option>Converted</option>
+            <option>Lost</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="fPriority">Priority</label>
+          <select id="fPriority">
+            <option>High</option>
+            <option selected>Medium</option>
+            <option>Low</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="fScore">Lead Score (0–100)</label>
+          <input type="number" id="fScore" min="0" max="100" value="50">
+          <span class="field-error" id="err-fScore"></span>
+        </div>
+        <div class="form-field">
+          <label for="fLastContact">Last Contact Date</label>
+          <input type="date" id="fLastContact">
+        </div>
+        <div class="form-field">
+          <label for="fNextFollowup">Next Follow-up Date</label>
+          <input type="date" id="fNextFollowup">
+        </div>
+      </div>
+
+      <div class="form-field form-field-full">
+        <label for="fNotes">Notes</label>
+        <textarea id="fNotes" rows="3" placeholder="Context, pain points, conversation summary..."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelLeadModal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveLeadBtn">Save Lead</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ VIEW LEAD PROFILE MODAL ============ -->
+<div class="modal-overlay" id="viewModalOverlay">
+  <div class="modal modal-profile" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2>Lead Profile</h2>
+      <button class="modal-close" id="closeViewModal" aria-label="Close">×</button>
+    </div>
+    <div class="profile-body" id="profileBody"><!-- rendered by script.js --></div>
+  </div>
+</div>
+
+<!-- ============ DELETE CONFIRM MODAL ============ -->
+<div class="modal-overlay" id="deleteModalOverlay">
+  <div class="modal modal-small" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2>Delete Lead</h2>
+      <button class="modal-close" id="closeDeleteModal" aria-label="Close">×</button>
+    </div>
+    <div class="modal-confirm-body">
+      <p>Remove <strong id="deleteLeadName">this lead</strong> from the pipeline? This can't be undone.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" id="cancelDelete">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete">Delete Lead</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
