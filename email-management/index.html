@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jennelyn Portea — Email Management Dashboard</title>
+<meta name="description" content="Premium Email Management Dashboard — Virtual Assistant portfolio demo by Jennelyn Portea.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ SKIP LINK ============ -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- ============ MOBILE TOP BAR ============ -->
+<header class="mobile-topbar">
+  <button id="mobileMenuToggle" class="icon-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+  <span class="mobile-brand">Jennelyn Portea</span>
+  <button id="mobileComposeBtn" class="icon-btn" aria-label="Compose new email">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</header>
+
+<div class="app-shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
+  <aside id="sidebar" class="sidebar" aria-label="Primary navigation">
+    <div class="brand-block">
+      <div class="brand-mark" aria-hidden="true">JP</div>
+      <div class="brand-text">
+        <span class="brand-name">Jennelyn Portea</span>
+        <span class="brand-role">Virtual Assistant</span>
+      </div>
+      <button id="sidebarClose" class="icon-btn sidebar-close" aria-label="Close navigation menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <button id="composeBtn" class="compose-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      Compose Email
+    </button>
+
+    <nav class="nav-list" aria-label="Dashboard sections">
+      <button class="nav-item is-active" data-view="dashboard">
+        <span class="nav-ico" aria-hidden="true">◆</span><span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-view="inbox">
+        <span class="nav-ico" aria-hidden="true">✉</span><span>Inbox</span>
+        <span class="nav-badge" id="badgeInbox">0</span>
+      </button>
+      <button class="nav-item" data-view="starred">
+        <span class="nav-ico" aria-hidden="true">★</span><span>Starred</span>
+      </button>
+      <button class="nav-item" data-view="sent">
+        <span class="nav-ico" aria-hidden="true">➤</span><span>Sent</span>
+      </button>
+      <button class="nav-item" data-view="drafts">
+        <span class="nav-ico" aria-hidden="true">✎</span><span>Drafts</span>
+        <span class="nav-badge" id="badgeDrafts">0</span>
+      </button>
+      <button class="nav-item" data-view="archived">
+        <span class="nav-ico" aria-hidden="true">▢</span><span>Archived</span>
+      </button>
+      <button class="nav-item" data-view="followups">
+        <span class="nav-ico" aria-hidden="true">⏰</span><span>Follow-ups</span>
+        <span class="nav-badge" id="badgeFollowups">0</span>
+      </button>
+      <button class="nav-item" data-view="templates">
+        <span class="nav-ico" aria-hidden="true">▤</span><span>Templates</span>
+      </button>
+      <button class="nav-item" data-view="reports">
+        <span class="nav-ico" aria-hidden="true">▦</span><span>Reports</span>
+      </button>
+      <button class="nav-item" data-view="settings">
+        <span class="nav-ico" aria-hidden="true">⚙</span><span>Settings</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="status-pill"><span class="status-dot"></span> Available</div>
+      <p class="demo-note">Portfolio Demo Mode</p>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main id="main-content" class="main-content">
+
+    <!-- Top search / filter bar (shown for list views) -->
+    <div id="toolbar" class="toolbar">
+      <div class="search-wrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <label for="searchInput" class="sr-only">Search emails</label>
+        <input type="search" id="searchInput" placeholder="Search by sender, subject, category…" autocomplete="off">
+      </div>
+      <div class="filter-scroll" id="filterBar" role="group" aria-label="Email filters"></div>
+    </div>
+
+    <!-- View header -->
+    <div class="view-header">
+      <div>
+        <h1 id="viewTitle">Dashboard</h1>
+        <p id="viewSubtitle" class="view-subtitle">Welcome back — here's what's happening today.</p>
+      </div>
+      <div class="view-header-actions" id="viewHeaderActions"></div>
+    </div>
+
+    <!-- Dynamic view mount point -->
+    <div id="viewRoot"></div>
+
+  </main>
+</div>
+
+<!-- ============ EMAIL DETAIL MODAL ============ -->
+<div id="emailModal" class="modal-overlay" hidden>
+  <div class="modal email-modal" role="dialog" aria-modal="true" aria-labelledby="emailModalSubject">
+    <button type="button" class="modal-close" id="closeEmailModal" aria-label="Close email">✕</button>
+    <div id="emailModalBody"></div>
+  </div>
+</div>
+
+<!-- ============ COMPOSER MODAL ============ -->
+<div id="composerModal" class="modal-overlay" hidden>
+  <div class="modal composer-modal" role="dialog" aria-modal="true" aria-labelledby="composerTitle">
+    <div class="composer-header">
+      <h2 id="composerTitle">New Message</h2>
+      <button type="button" class="modal-close" id="closeComposerModal" aria-label="Close composer">✕</button>
+    </div>
+    <form id="composerForm" class="composer-form" novalidate>
+      <input type="hidden" id="composerMode" value="new">
+      <input type="hidden" id="composerRefId" value="">
+      <input type="hidden" id="composerDraftId" value="">
+
+      <div class="field-row">
+        <label for="composeTo">To</label>
+        <input type="text" id="composeTo" placeholder="recipient@email.com" autocomplete="off">
+      </div>
+      <div class="field-row cc-bcc-row">
+        <div class="field-half">
+          <label for="composeCc">CC</label>
+          <input type="text" id="composeCc" placeholder="cc@email.com (optional)" autocomplete="off">
+        </div>
+        <div class="field-half">
+          <label for="composeBcc">BCC</label>
+          <input type="text" id="composeBcc" placeholder="bcc@email.com (optional)" autocomplete="off">
+        </div>
+      </div>
+      <div class="field-row">
+        <label for="composeSubject">Subject</label>
+        <input type="text" id="composeSubject" placeholder="Email subject" autocomplete="off">
+      </div>
+      <div class="field-row grow">
+        <label for="composeMessage">Message</label>
+        <textarea id="composeMessage" rows="10" placeholder="Write your message…"></textarea>
+      </div>
+      <p class="field-error" id="composerError" hidden></p>
+
+      <div class="composer-footer">
+        <div class="composer-footer-left">
+          <button type="button" class="btn btn-ghost" id="composeDiscardBtn">Discard</button>
+          <button type="button" class="btn btn-outline" id="composeSaveDraftBtn">Save Draft</button>
+        </div>
+        <button type="submit" class="btn btn-primary" id="composeSendBtn">
+          <span class="btn-label">Send Email</span>
+        </button>
+      </div>
+      <p class="demo-mode-note">Portfolio Demo Mode — real Gmail/Outlook sending can be connected through an authenticated email API or automation backend when deployed for a client.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ============ FOLLOW-UP MODAL ============ -->
+<div id="followupModal" class="modal-overlay" hidden>
+  <div class="modal followup-modal" role="dialog" aria-modal="true" aria-labelledby="followupModalTitle">
+    <div class="composer-header">
+      <h2 id="followupModalTitle">Add Follow-up</h2>
+      <button type="button" class="modal-close" id="closeFollowupModal" aria-label="Close follow-up form">✕</button>
+    </div>
+    <form id="followupForm" class="composer-form" novalidate>
+      <input type="hidden" id="followupId" value="">
+      <div class="field-row">
+        <label for="followupContact">Contact</label>
+        <input type="text" id="followupContact" placeholder="Contact name" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label for="followupCompany">Company</label>
+        <input type="text" id="followupCompany" placeholder="Company name" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label for="followupSubject">Subject</label>
+        <input type="text" id="followupSubject" placeholder="What's this about?" autocomplete="off">
+      </div>
+      <div class="field-row cc-bcc-row">
+        <div class="field-half">
+          <label for="followupDate">Follow-up date</label>
+          <input type="date" id="followupDate">
+        </div>
+        <div class="field-half">
+          <label for="followupPriority">Priority</label>
+          <select id="followupPriority">
+            <option value="High">High</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+      </div>
+      <p class="field-error" id="followupError" hidden></p>
+      <div class="composer-footer">
+        <div class="composer-footer-left">
+          <button type="button" class="btn btn-ghost" id="followupCancelBtn">Cancel</button>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Follow-up</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ TEMPLATE EDIT MODAL ============ -->
+<div id="templateModal" class="modal-overlay" hidden>
+  <div class="modal followup-modal" role="dialog" aria-modal="true" aria-labelledby="templateModalTitle">
+    <div class="composer-header">
+      <h2 id="templateModalTitle">Edit Template</h2>
+      <button type="button" class="modal-close" id="closeTemplateModal" aria-label="Close template editor">✕</button>
+    </div>
+    <form id="templateForm" class="composer-form" novalidate>
+      <input type="hidden" id="templateId" value="">
+      <div class="field-row">
+        <label for="templateName">Template name</label>
+        <input type="text" id="templateName" placeholder="Template name" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label for="templateSubject">Subject</label>
+        <input type="text" id="templateSubject" placeholder="Subject line" autocomplete="off">
+      </div>
+      <div class="field-row grow">
+        <label for="templateMessage">Message</label>
+        <textarea id="templateMessage" rows="8" placeholder="Template message…"></textarea>
+      </div>
+      <p class="field-error" id="templateError" hidden></p>
+      <div class="composer-footer">
+        <div class="composer-footer-left">
+          <button type="button" class="btn btn-ghost" id="templateCancelBtn">Cancel</button>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Template</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ============ CONFIRM DIALOG ============ -->
+<div id="confirmModal" class="modal-overlay" hidden>
+  <div class="modal confirm-modal" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+    <h2 id="confirmTitle">Are you sure?</h2>
+    <p id="confirmMessage">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button type="button" class="btn btn-ghost" id="confirmCancelBtn">Cancel</button>
+      <button type="button" class="btn btn-danger" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST CONTAINER ============ -->
+<div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
