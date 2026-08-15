@@ -634,8 +634,26 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.02em; }
    Portfolio
    ========================================================================== */
 .grid--portfolio {
-  grid-template-columns: repeat(3, 1fr);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
+  align-items: stretch;
+}
+
+.grid--portfolio .project-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid--portfolio .project-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid--portfolio .project-card__link {
+  margin-top: auto;
 }
 .project-card {
   border-radius: var(--radius-md);
@@ -825,3 +843,4 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.02em; }
   .timeline { padding-left: 26px; }
   .timeline__dot { left: -26px; }
 }
+
